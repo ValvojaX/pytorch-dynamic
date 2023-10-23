@@ -1,1 +1,9 @@
+# pycharm
 .idea
+
+# pytorch model
+*.pt
+*.pth
+
+# pycache
+__pycache__/
