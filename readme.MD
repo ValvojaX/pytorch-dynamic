@@ -54,10 +54,10 @@ def main():
     # Create a trainer for the network and the dataset.
     trainer = TrainerBuilder.create() \
         .set_model(model=model) \
+        .set_model_definition(model_definition=definition) \
         .set_optimizer_adam(lr=0.01, weight_decay=0.0001) \
         .set_criterion_mse() \
         .set_split_dataset(dataset=dataset, train_percentage=0.8) \
-        .set_model_definition(model_definition=definition) \
         .set_epochs(100) \
         .set_batch_size(2) \
         .build()

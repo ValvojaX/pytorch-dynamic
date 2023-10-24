@@ -126,7 +126,7 @@ class Trainer:
         self.optimizer.load_state_dict(save["optimizer_state_dict"])
         self.model_definition.load_state_dict(save["model_definition"])
 
-    def plot(self, predictions: list[object], max_x: float | None = None, max_y: float | None = None) -> None:
+    def plot(self, predictions: list[object]) -> None:
         # Check if model is ready
         self.__check_ready()
 
@@ -171,10 +171,29 @@ class Trainer:
             plt.scatter(train_input_features[input_feature.name], train_target_features[target_feature.name], label="Train Data")
             plt.scatter(prediction_input_features[input_feature.name], prediction_target_features[target_feature.name], label="Prediction Data")
 
-        if max_x is not None:
-            plt.xlim(0, max_x)
-        if max_y is not None:
-            plt.ylim(0, max_y)
+        # Get min and max of all input features
+        min_x, max_x = None, None
+        for input_feature in definition.input_features:
+            for value in train_input_features[input_feature.name]:
+                if min_x is None or value < min_x:
+                    min_x = value
+
+                if max_x is None or value > max_x:
+                    max_x = value
+
+        plt.xlim(min_x * 1.1, max_x * 1.1)
+
+        # Get min and max of all target features
+        min_y, max_y = None, None
+        for target_feature in definition.target_features:
+            for value in train_target_features[target_feature.name]:
+                if min_y is None or value < min_y:
+                    min_y = value
+
+                if max_y is None or value > max_y:
+                    max_y = value
+
+        plt.ylim(min_y * 1.1, max_y * 1.1)
 
         plt.title("Train Data vs Prediction Data")
         plt.xlabel("Input Features")
