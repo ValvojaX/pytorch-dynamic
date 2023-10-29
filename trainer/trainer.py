@@ -181,12 +181,26 @@ class Trainer:
                 if max_x is None or value > max_x:
                     max_x = value
 
+            for value in prediction_input_features[input_feature.name]:
+                if min_x is None or value < min_x:
+                    min_x = value
+
+                if max_x is None or value > max_x:
+                    max_x = value
+
         plt.xlim(min_x * 1.1, max_x * 1.1)
 
         # Get min and max of all target features
         min_y, max_y = None, None
         for target_feature in definition.target_features:
             for value in train_target_features[target_feature.name]:
+                if min_y is None or value < min_y:
+                    min_y = value
+
+                if max_y is None or value > max_y:
+                    max_y = value
+
+            for value in prediction_target_features[target_feature.name]:
                 if min_y is None or value < min_y:
                     min_y = value
 
